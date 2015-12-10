@@ -1,0 +1,102 @@
+<head>
+<script type="text/javascript" src="VIS/dist/vis.js"></script>
+<link href="VIS/dist/vis.css" rel="stylesheet" type="text/css" />
+<link href="css/grayscale.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    #mynetwork {            margin-left: auto;      margin-right: auto;      border: 0px solid lightgray;    }  </style>
+<title>Independent Cascading</title></head>
+<body bgcolor="#000000">
+<div style="text-align:justify; padding:20px; border: dashed; width: 400px; position: fixed; right: 10%; top: 20%; z-index:100;"><p>This is the graph before execution of the algorithm. To execute the algorithm on this graph, click on 'Proceed'.</p></div>
+<div style="text-align:justify; padding:20px; border: dashed; width: 400px; position: fixed; left: 10%; top: 20%; z-index:100;"><p>The edge weights are the probabilities of getting influenced by neighbours.</p></div>
+
+
+<div  style="position: fixed; right: 20%; top: 70%; z-index:100;"><a href="ic_algo?edge_in='''+edge_in+'''&&seedlist='''+seedlist+'''&&node_in='''+node_in+'''" class="btn btn-default btn-lg" style="padding: 15px;">Proceed</a></div>
+<div style="position: fixed; right: 20%; top: 78%; z-index:100;"><a href="index.html#about" class="btn btn-default btn-lg" style="padding: 15px;">Go Home</a></div>
+
+<center>
+<div style="position: fixed; border-style: dashed;    width:98%;    height:28%    border-width: 2px;    border-color:#42dca3;    margin-left:auto;    margin-right:auto;  align="center">
+<h2><span style="color: #42dca3">Independent Cascading</span></h2>
+<font color="#FFF">Selected Seeds: <a id="selectedseedlistdiv">'''+seed_str+'''</a></font>
+<!--<br><font color="#FFF">Nodes Clicked: <a id="seedlistdiv"></a></font>-->
+
+<div id="mynetwork"></div>
+
+<script type="text/javascript">
+      document.getElementById("selectedseedlistdiv").innerHTML = ic_seedlist.toString();
+</script>
+
+<script type="text/javascript">
+  // create an array with nodes
+  var nodes = new vis.DataSet([
+    '''+node1_str+'''
+  ]);
+
+  // create an array with edges
+  var edges = new vis.DataSet([
+     '''+edge_str+'''
+  ]);
+
+  // create a network
+  var container = document.getElementById('mynetwork');
+  var data = {
+    nodes: nodes,
+    edges: edges
+  };
+   var options = {
+        nodes: {
+            size: 20,
+            font: {
+                size: 22,
+                color: '#ffffff'
+            },
+            borderWidth: 2
+        },
+        edges: {
+            width: 2,
+            font: {
+                size: 12,
+                color: '#ffffff',
+                align: 'top'
+                }
+                
+        }
+    };
+  
+  var network = new vis.Network(container, data, options);
+  var seedlist = "";
+  var seedlistarr = []
+  for(i='''+str(no_nodes)+'''-1;i>=0;i--){
+      seedlistarr[i]="0";
+  }
+  var noinsnodes=0
+  
+  network.on("click", function (params) {
+        params.event = "[original event]";
+        text = JSON.stringify(params, null, 4);
+        obj = JSON.parse(text);
+        
+        if(noinsnodes<'''+str(no_nodes)+''')
+         {
+             if(obj.nodes.length!=0){
+                 seedlistarr[noinsnodes]=obj.nodes;
+                 noinsnodes=noinsnodes+1;
+                 document.getElementById("seedlistdiv").innerHTML = seedlistarr.toString();
+                 }
+         }
+        
+        if(obj.nodes.length!=0)
+            {
+            if(seedlist.length!=0){
+                seedlist=seedlist+", "+obj.nodes
+                }
+            else{
+                seedlist=obj.nodes
+               }
+            }
+        document.getElementById("eventSpan").innerHTML = seedlist;
+       
+    });
+</script>
+<font color="#ffffff"><pre id="eventSpan"></pre></font>
+
+</body>
