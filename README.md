@@ -28,7 +28,7 @@ The user will be prompted to input a graph, number of influenced nodes required/
 3. Aman Chanana
 4. Piyush Agade
 
-#Screenshots
+# Screenshots
 <img src="http://i.imgur.com/qv6UpFm.png">
 <img src="http://i.imgur.com/kCWeaqB.png">
 <img src="http://i.imgur.com/uhdhrWq.png">
